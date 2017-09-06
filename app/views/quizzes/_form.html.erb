@@ -1,0 +1,12 @@
+<%= form_for @quiz do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %><br>
+
+  <% if @quiz.questions.length >= 1 %>
+    <div class="field">
+    <%= f.select(:published, options_for_select({'Publish' => true, 'Not Ready yet' => false})) %>
+    </div>
+  <% end %>
+
+  <%= f.submit %>
+<% end %>

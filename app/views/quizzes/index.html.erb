@@ -1,0 +1,10 @@
+<h1>Created Quizzes</h1>
+<% @quiz.each do |quiz| %>
+  <p><%= quiz.title %>
+    <%=link_to "Show", quiz%>
+    <% if !quiz.published %>
+     <%=link_to "Edit", edit_quiz_path(quiz)%>
+     <!-- <%=link_to "Delete", quiz, method: :delete %> -->
+    <% end %>
+  </p>
+<% end  %>

@@ -1,0 +1,14 @@
+<h1>Hey! <%= current_user.name %> Welcome Back!</h1>
+
+<% if current_user.results.length > 0 %>
+  <h1>Your total score for all quizzes is <%= current_user.total_score %>% </h1>
+<% end  %>
+
+<h2>Take a Quiz</h2>
+<% @quizzes.each do |quiz| %>
+  <% if quiz.published  && current_user.current_quiz_results(quiz.id).length < quiz.questions.length %>
+    <%= quiz.title %>
+    <%= link_to "Take Quiz", quiz %>
+    <br>
+  <% end %>
+<% end  %>

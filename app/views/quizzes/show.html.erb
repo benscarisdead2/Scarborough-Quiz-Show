@@ -1,0 +1,40 @@
+<h1><%= @quiz.title %></h1>
+
+<% quiz_results = current_user.results.select {|results| results.quiz_id == @quiz.id}  %>
+
+<% if quiz_results.length < @quiz.questions.length  %>
+  <% current_question = @quiz.questions[quiz_results.length] %>
+  <h3><%= current_question.query %></h3>
+  <% result = Result.new %>
+  <% current_question.answers.each do |answer|  %>
+    <%= form_for [result] do |f| %>
+      <%= f.hidden_field "quiz_id", :value => @quiz.id %>
+      <%= f.hidden_field "answer_id", :value => answer.id %>
+      <%= f.submit answer.text %>
+    <% end %>
+    <br>
+  <% end  %>
+<% else  %>
+  <h3>You've finished the quiz! Here are the results</h3>
+  <% correct_answers = quiz_results.select {|result| result.answer.correct}  %>
+  <% wrong_answers = quiz_results.select {|result| !result.answer.correct}  %>
+
+  <% quiz_results.each do |result|  %>
+    <%= result.answer.text %>
+    <% if result.answer.correct  %>
+      <span>Correct Answer</span>
+    <% end  %>
+    <br>
+  <% end  %>
+  <% if current_user.results.length > 0 %>
+    <% score = (correct_answers.length.to_f/quiz_results.length.to_f) * 100  %>
+    <h3>You got a <%= score.to_i %>%</h3>
+  <% end  %>
+<% end  %>
+
+
+<% if current_user.admin && !@quiz.published %>
+  <%= link_to "Edit", edit_quiz_path(@quiz) %>
+  <%= link_to "Back to all Quizzes", quizzes_path %>
+<% end  %>
+<%= link_to "Back", current_user %>

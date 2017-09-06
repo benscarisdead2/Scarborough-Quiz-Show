@@ -1,0 +1,9 @@
+<%= form_for [@quiz, @question, @answer] do |f| %>
+  <%= @question.query %><br>
+  <%= f.label :Answer %><br>
+  <%= f.text_field :text %><br>
+
+  <%= f.select(:correct, options_for_select({'Correct Answer' => true, 'Not Correct' => false})) %>
+
+  <%= f.submit %>
+<% end %>

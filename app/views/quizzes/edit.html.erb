@@ -1,0 +1,20 @@
+<h1>Edit Your Quiz</h1>
+<%= render "form", quiz: @quiz %>
+
+<%= link_to "Create Question", new_quiz_question_path(@quiz) %><br>
+<% @quiz.questions.each do |question| %>
+  <%= question.query %>
+  <%= link_to "Edit Question", edit_quiz_question_path(@quiz, question) %>
+  <%= link_to "Delete Question", quiz_question_path(@quiz, question), method: :delete %>
+  <br>
+
+  <% question.answers.each do |answer| %>
+    <%= answer.text %>
+    <%if answer.correct %>
+      <span>correct answer</span>
+      <br>
+    <% end %>
+    <br>
+  <% end  %>
+    <%= link_to "Create new Answer", new_quiz_question_answer_path(@quiz, question) %><br>
+<% end %>
